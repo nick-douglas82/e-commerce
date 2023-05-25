@@ -10,14 +10,32 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Products {
-    id          Int      @id @default(autoincrement())
+model Category {
+    id          Int        @id @default(autoincrement())
     name        String
     description String?
-    notes       String?
-    price       Int
-    img         String
     slug        String
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+    products    Products[]
+    createdAt   DateTime   @default(now())
+    updatedAt   DateTime   @updatedAt
+
+    @@map("category")
+}
+
+model Products {
+    id             Int        @id @default(autoincrement())
+    name           String
+    description    String?
+    notes          String?
+    price          Int
+    img            String
+    slug           String
+    categories     Category[]
+    variants       Products[] @relation("ProductsVariants")
+    parentProducts Products?  @relation("ProductsVariants", fields: [productsId], references: [id])
+    createdAt      DateTime   @default(now())
+    updatedAt      DateTime   @updatedAt
+    productsId     Int?
+
+    @@map("products")
 }

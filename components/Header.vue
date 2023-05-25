@@ -117,17 +117,17 @@ const open = ref(false)
                         leave-to="-translate-x-full"
                     >
                         <DialogPanel
-                            class="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl"
+                            class="relative flex flex-col w-full max-w-xs pb-12 overflow-y-auto bg-white shadow-xl"
                         >
-                            <div class="flex px-4 pb-2 pt-5">
+                            <div class="flex px-4 pt-5 pb-2">
                                 <button
                                     type="button"
-                                    class="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
+                                    class="inline-flex items-center justify-center p-2 -m-2 text-gray-400 rounded-md"
                                     @click="open = false"
                                 >
                                     <span class="sr-only">Close menu</span>
                                     <XMarkIcon
-                                        class="h-6 w-6"
+                                        class="w-6 h-6"
                                         aria-hidden="true"
                                     />
                                 </button>
@@ -136,7 +136,7 @@ const open = ref(false)
                             <!-- Links -->
                             <TabGroup as="div" class="mt-2">
                                 <div class="border-b border-gray-200">
-                                    <TabList class="-mb-px flex space-x-8 px-4">
+                                    <TabList class="flex px-4 -mb-px space-x-8">
                                         <Tab
                                             as="template"
                                             v-for="category in navigation.categories"
@@ -162,10 +162,10 @@ const open = ref(false)
                                             category, categoryIdx
                                         ) in navigation.categories"
                                         :key="category.name"
-                                        class="space-y-12 px-4 pb-6 pt-10"
+                                        class="px-4 pt-10 pb-6 space-y-12"
                                     >
                                         <div
-                                            class="grid grid-cols-1 items-start gap-x-6 gap-y-10"
+                                            class="grid items-start grid-cols-1 gap-x-6 gap-y-10"
                                         >
                                             <div
                                                 class="grid grid-cols-1 gap-x-6 gap-y-10"
@@ -298,7 +298,7 @@ const open = ref(false)
                             </TabGroup>
 
                             <div
-                                class="space-y-6 border-t border-gray-200 px-4 py-6"
+                                class="px-4 py-6 space-y-6 border-t border-gray-200"
                             >
                                 <div
                                     v-for="page in navigation.pages"
@@ -307,33 +307,33 @@ const open = ref(false)
                                 >
                                     <a
                                         :href="page.href"
-                                        class="-m-2 block p-2 font-medium text-gray-900"
+                                        class="block p-2 -m-2 font-medium text-gray-900"
                                         >{{ page.name }}</a
                                     >
                                 </div>
                             </div>
 
                             <div
-                                class="space-y-6 border-t border-gray-200 px-4 py-6"
+                                class="px-4 py-6 space-y-6 border-t border-gray-200"
                             >
                                 <div class="flow-root">
                                     <a
                                         href="#"
-                                        class="-m-2 block p-2 font-medium text-gray-900"
+                                        class="block p-2 -m-2 font-medium text-gray-900"
                                         >Create an account</a
                                     >
                                 </div>
                                 <div class="flow-root">
                                     <a
                                         href="#"
-                                        class="-m-2 block p-2 font-medium text-gray-900"
+                                        class="block p-2 -m-2 font-medium text-gray-900"
                                         >Sign in</a
                                     >
                                 </div>
                             </div>
 
                             <div
-                                class="space-y-6 border-t border-gray-200 px-4 py-6"
+                                class="px-4 py-6 space-y-6 border-t border-gray-200"
                             >
                                 <CurrencySelector
                                     :currencies="currencies"

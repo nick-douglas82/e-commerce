@@ -36,6 +36,7 @@
         "@prisma/client": "^4.14.1",
         "@stripe/stripe-js": "^1.53.0",
         "@tailwindcss/forms": "^0.5.3",
+        "@tailwindcss/typography": "^0.5.9",
         "@vueuse/core": "^10.1.2",
         "nuxt-icon": "^0.4.0",
         "nuxt-lodash": "^2.4.1",
