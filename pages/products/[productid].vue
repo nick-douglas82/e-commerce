@@ -7,14 +7,14 @@ import {
     CurrencyDollarIcon,
     GlobeAmericasIcon,
 } from '@heroicons/vue/24/outline'
+import Breadcrumb from '~/components/navigation/Breadcrumb.vue'
+import ProductVariants from '~/components/ProductVariants.vue'
 
 const route = useRoute()
 
 const product = await useFetchWithCache<ProductWithCategories>(
     `/api/products/get-product-by-slug/${route.params.productid}`
 )
-
-console.log(product.value)
 
 const priceFormat = (price: number) => `£${(price / 100).toFixed(2)}` ?? '£0.00'
 
@@ -88,55 +88,7 @@ const policies = [
 <template>
     <div class="bg-white">
         <div class="pt-6 pb-16 sm:pb-24">
-            <nav aria-label="Breadcrumb" class="px-4 mx-auto sm:px-6 lg:px-8">
-                <ol role="list" class="flex items-center space-x-4">
-                    <li>
-                        <div class="flex items-center">
-                            <a
-                                href="/"
-                                class="mr-4 text-sm font-medium text-gray-900"
-                                >Home</a
-                            >
-                            <svg
-                                viewBox="0 0 6 20"
-                                aria-hidden="true"
-                                class="w-auto h-5 text-gray-300"
-                            >
-                                <path
-                                    d="M4.878 4.34H3.551L.27 16.532h1.327l3.281-12.19z"
-                                    fill="currentColor"
-                                />
-                            </svg>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center">
-                            <a
-                                :href="`/collections/${product.categories[0].slug}`"
-                                class="mr-4 text-sm font-medium text-gray-900"
-                                >{{ product.categories[0].name }}</a
-                            >
-                            <svg
-                                viewBox="0 0 6 20"
-                                aria-hidden="true"
-                                class="w-auto h-5 text-gray-300"
-                            >
-                                <path
-                                    d="M4.878 4.34H3.551L.27 16.532h1.327l3.281-12.19z"
-                                    fill="currentColor"
-                                />
-                            </svg>
-                        </div>
-                    </li>
-                    <li class="text-sm">
-                        <span
-                            aria-current="page"
-                            class="font-medium text-gray-500 hover:text-gray-600"
-                            >{{ product.name }}
-                        </span>
-                    </li>
-                </ol>
-            </nav>
+            <Breadcrumb :product="product" />
             <div class="px-4 mx-auto mt-8 sm:px-6 lg:px-8">
                 <div
                     class="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8"
@@ -150,6 +102,15 @@ const policies = [
                                 {{ priceFormat(product.price) }}
                             </p>
                         </div>
+                        <h2
+                            class="mt-8 text-base font-medium text-gray-900 capitalize"
+                        >
+                            Colour: {{ product.variant }}
+                        </h2>
+                        <ProductVariants
+                            :product="product"
+                            :variants="product.variants"
+                        />
                         <!-- Reviews -->
                         <div class="mt-4">
                             <h2 class="sr-only">Reviews</h2>

@@ -13,7 +13,7 @@
         "lint:style:fix": "stylelint **/*.{css,scss,sass,html,vue} --fix"
     },
     "prisma": {
-        "seed": "ts-node --transpile-only ./prisma/seed.ts"
+        "seed": "ts-node --transpile-only ./prisma/seed/index.ts"
     },
     "devDependencies": {
         "@types/node": "^18",

@@ -30,9 +30,10 @@ model Products {
     price          Int
     img            String
     slug           String
+    variant        String
     categories     Category[]
     variants       Products[] @relation("ProductsVariants")
-    parentProducts Products?  @relation("ProductsVariants", fields: [productsId], references: [id])
+    parentProducts Products[]  @relation("ProductsVariants")
     createdAt      DateTime   @default(now())
     updatedAt      DateTime   @updatedAt
     productsId     Int?

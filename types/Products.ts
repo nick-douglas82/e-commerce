@@ -6,6 +6,8 @@ export interface Product {
     notes: string | null
     price: number
     slug: string
+    variant: string
+    variants?: ProductWithCategories[]
     createdAt: string
     updatedAt: string
 }
