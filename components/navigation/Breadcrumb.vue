@@ -14,8 +14,10 @@ const { product } = defineProps({
         <ol role="list" class="flex items-center space-x-4">
             <li>
                 <div class="flex items-center">
-                    <a href="/" class="mr-4 text-sm font-medium text-gray-900"
-                        >Home</a
+                    <NuxtLink
+                        to="/"
+                        class="mr-4 text-sm font-medium text-gray-900"
+                        >Home</NuxtLink
                     >
                     <svg
                         viewBox="0 0 6 20"
@@ -31,11 +33,11 @@ const { product } = defineProps({
             </li>
             <li>
                 <div class="flex items-center">
-                    <a
-                        :href="`/collections/${product.categories[0].slug}`"
+                    <NuxtLink
+                        :to="`/collections/${product.categories[0].slug}`"
                         class="mr-4 text-sm font-medium text-gray-900"
-                        >{{ product.categories[0].name }}</a
-                    >
+                        >{{ product.categories[0].name }}
+                    </NuxtLink>
                     <svg
                         viewBox="0 0 6 20"
                         aria-hidden="true"

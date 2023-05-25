@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useBasketStore } from '~/store/basket'
 import {
     MagnifyingGlassIcon,
     ShoppingCartIcon,
@@ -6,6 +7,8 @@ import {
 } from '@heroicons/vue/24/outline'
 import useFetchWithCache from '~/composables/useFetchWithCache'
 import { Collection } from '~/types/Collection'
+
+const basketStore = useBasketStore()
 
 const collections = await useFetchWithCache<Collection[]>(
     '/api/collections/get-all-collections'
@@ -84,8 +87,8 @@ const collections = await useFetchWithCache<Collection[]>(
                             />
 
                             <div class="flow-root">
-                                <a
-                                    href="#"
+                                <NuxtLink
+                                    to="/basket"
                                     class="flex items-center p-2 -m-2 group"
                                 >
                                     <ShoppingCartIcon
@@ -94,12 +97,12 @@ const collections = await useFetchWithCache<Collection[]>(
                                     />
                                     <span
                                         class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800"
-                                        >0</span
+                                        >{{ basketStore.count }}</span
                                     >
                                     <span class="sr-only"
                                         >items in cart, view bag</span
                                     >
-                                </a>
+                                </NuxtLink>
                             </div>
                         </div>
                     </div>

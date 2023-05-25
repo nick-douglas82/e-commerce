@@ -3,10 +3,10 @@ export type Link = { name: string; href: string }
 export type Navigation = {
     categories: {
         name: string
-        featured: Link[]
-        collection: Link[]
-        categories: Link[]
-        brands: Link[]
+        featured: Array<Link>
+        collection: Array<Link>
+        categories: Array<Link>
+        brands: Array<Link>
     }[]
-    pages: Link[]
+    pages: Array<Link>
 }

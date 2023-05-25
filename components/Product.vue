@@ -13,7 +13,7 @@ const url = computed(() => `/products/${product.slug}`)
 </script>
 
 <template>
-    <a :href="url" class="group">
+    <NuxtLink :to="url" class="group">
         <div
             class="w-full overflow-hidden bg-gray-200 rounded-lg aspect-h-1 aspect-w-1 xl:aspect-h-8 xl:aspect-w-7"
         >
@@ -29,5 +29,5 @@ const url = computed(() => `/products/${product.slug}`)
         <p class="mt-1 text-lg font-medium text-gray-900">
             {{ price }}
         </p>
-    </a>
+    </NuxtLink>
 </template>

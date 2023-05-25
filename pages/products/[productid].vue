@@ -9,14 +9,20 @@ import {
 } from '@heroicons/vue/24/outline'
 import Breadcrumb from '~/components/navigation/Breadcrumb.vue'
 import ProductVariants from '~/components/ProductVariants.vue'
+import { useBasketStore } from '~/store/basket'
 
 const route = useRoute()
+const basketStore = useBasketStore()
 
 const product = await useFetchWithCache<ProductWithCategories>(
     `/api/products/get-product-by-slug/${route.params.productid}`
 )
 
 const priceFormat = (price: number) => `£${(price / 100).toFixed(2)}` ?? '£0.00'
+
+const addToBasket = (product: ProductWithCategories) => {
+    basketStore.addItemsToBasket(product)
+}
 
 // const product = {
 //     name: 'Basic Tee',
@@ -166,120 +172,13 @@ const policies = [
                     </div>
 
                     <div class="mt-8 lg:col-span-5">
-                        <form>
-                            <!-- Color picker -->
-                            <div>
-                                <!-- <h2 class="text-sm font-medium text-gray-900">
-                                    Color
-                                </h2>
-
-                                <RadioGroup
-                                    v-model="selectedColor"
-                                    class="mt-2"
-                                >
-                                    <RadioGroupLabel class="sr-only"
-                                        >Choose a color</RadioGroupLabel
-                                    >
-                                    <div class="flex items-center space-x-3">
-                                        <RadioGroupOption
-                                            as="template"
-                                            v-for="color in product.colors"
-                                            :key="color.name"
-                                            :value="color"
-                                            v-slot="{ active, checked }"
-                                        >
-                                            <div
-                                                :class="[
-                                                    color.selectedColor,
-                                                    active && checked
-                                                        ? 'ring ring-offset-1'
-                                                        : '',
-                                                    !active && checked
-                                                        ? 'ring-2'
-                                                        : '',
-                                                    'relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none',
-                                                ]"
-                                            >
-                                                <RadioGroupLabel
-                                                    as="span"
-                                                    class="sr-only"
-                                                    >{{
-                                                        color.name
-                                                    }}</RadioGroupLabel
-                                                >
-                                                <span
-                                                    aria-hidden="true"
-                                                    :class="[
-                                                        color.bgColor,
-                                                        'h-8 w-8 rounded-full border border-black border-opacity-10',
-                                                    ]"
-                                                />
-                                            </div>
-                                        </RadioGroupOption>
-                                    </div>
-                                </RadioGroup> -->
-                            </div>
-
-                            <!-- Size picker -->
-                            <!-- <div class="mt-8">
-                                <div class="flex items-center justify-between">
-                                    <h2
-                                        class="text-sm font-medium text-gray-900"
-                                    >
-                                        Size
-                                    </h2>
-                                    <a
-                                        href="#"
-                                        class="text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                                        >See sizing chart</a
-                                    >
-                                </div>
-
-                                <RadioGroup v-model="selectedSize" class="mt-2">
-                                    <RadioGroupLabel class="sr-only"
-                                        >Choose a size</RadioGroupLabel
-                                    >
-                                    <div
-                                        class="grid grid-cols-3 gap-3 sm:grid-cols-6"
-                                    >
-                                        <RadioGroupOption
-                                            as="template"
-                                            v-for="size in product.sizes"
-                                            :key="size.name"
-                                            :value="size"
-                                            :disabled="!size.inStock"
-                                            v-slot="{ active, checked }"
-                                        >
-                                            <div
-                                                :class="[
-                                                    size.inStock
-                                                        ? 'cursor-pointer focus:outline-none'
-                                                        : 'cursor-not-allowed opacity-25',
-                                                    active
-                                                        ? 'ring-2 ring-indigo-500 ring-offset-2'
-                                                        : '',
-                                                    checked
-                                                        ? 'border-transparent bg-indigo-600 text-white hover:bg-indigo-700'
-                                                        : 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50',
-                                                    'flex items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase sm:flex-1',
-                                                ]"
-                                            >
-                                                <RadioGroupLabel as="span">{{
-                                                    size.name
-                                                }}</RadioGroupLabel>
-                                            </div>
-                                        </RadioGroupOption>
-                                    </div>
-                                </RadioGroup>
-                            </div> -->
-
-                            <button
-                                type="submit"
-                                class="flex items-center justify-center w-full px-8 py-3 mt-8 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                            >
-                                Add to cart
-                            </button>
-                        </form>
+                        <button
+                            type="button"
+                            class="flex items-center justify-center w-full px-8 py-3 mt-8 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            @click="addToBasket(product)"
+                        >
+                            Add to basket
+                        </button>
 
                         <!-- Product details -->
                         <div class="mt-10">

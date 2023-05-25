@@ -3,7 +3,7 @@ export type CollectionWithProducts = {
     id: number
     name: string
     slug: string
-    products: Product[]
+    products: Array<Product>
     description: string
 }
 

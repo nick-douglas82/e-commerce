@@ -7,7 +7,7 @@ export interface Product {
     price: number
     slug: string
     variant: string
-    variants?: ProductWithCategories[]
+    variants?: Array<ProductWithCategories>
     createdAt: string
     updatedAt: string
 }
@@ -20,5 +20,5 @@ export interface Category {
 }
 
 export interface ProductWithCategories extends Product {
-    categories: Category[]
+    categories: Array<Category>
 }
