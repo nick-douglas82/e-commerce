@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import { useBasketStore } from '~/store/basket'
-import {
-    MagnifyingGlassIcon,
-    ShoppingCartIcon,
-    UserIcon,
-} from '@heroicons/vue/24/outline'
+import { ShoppingCartIcon, UserIcon } from '@heroicons/vue/24/outline'
 import useFetchWithCache from '~/composables/useFetchWithCache'
 import { Collection } from '~/types/Collection'
 
+const user = useSupabaseUser()
 const basketStore = useBasketStore()
-
 const basketItems = basketStore.items
 
 const collections = await useFetchWithCache<Collection[]>(
@@ -62,30 +58,21 @@ const basketTotal = computed(() => {
                     <div class="flex items-center justify-end flex-1">
                         <div class="flex items-center lg:ml-8">
                             <div class="flex space-x-8">
-                                <div class="hidden lg:flex">
-                                    <a
-                                        href="#"
-                                        class="p-2 -m-2 text-gray-400 hover:text-gray-500"
-                                    >
-                                        <span class="sr-only">Search</span>
-                                        <MagnifyingGlassIcon
-                                            class="w-6 h-6"
-                                            aria-hidden="true"
-                                        />
-                                    </a>
-                                </div>
-
                                 <div class="flex">
-                                    <a
-                                        href="#"
-                                        class="p-2 -m-2 text-gray-400 hover:text-gray-500"
+                                    <NuxtLink
+                                        :to="
+                                            user ? '/account' : '/account/login'
+                                        "
+                                        class="p-2 -m-2 text-gray-400 appearance-none hover:text-gray-500"
                                     >
-                                        <span class="sr-only">Account</span>
+                                        <span class="sr-only">{{
+                                            user ? 'Account' : 'Login in'
+                                        }}</span>
                                         <UserIcon
                                             class="w-6 h-6"
                                             aria-hidden="true"
                                         />
-                                    </a>
+                                    </NuxtLink>
                                 </div>
                             </div>
 
