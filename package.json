@@ -38,7 +38,6 @@
         "@tailwindcss/forms": "^0.5.3",
         "@tailwindcss/typography": "^0.5.9",
         "@vueuse/core": "^10.1.2",
-        "nuxt-icon": "^0.4.0",
         "nuxt-lodash": "^2.4.1",
         "path": "^0.12.7",
         "pinia": "^2.1.3",
