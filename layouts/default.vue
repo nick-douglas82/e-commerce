@@ -9,8 +9,8 @@ useHead({
             content: 'noindex, nofollow',
         },
         {
-            name: 'x-robots-tag',
-            content: 'noindex, nofollow',
+            name: 'X-Robots-Tag',
+            content: 'noindex',
         },
     ],
 })
