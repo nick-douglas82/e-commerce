@@ -1,18 +1,9 @@
 <script setup lang="ts">
 import { useBasketStore } from '~/store/basket'
-import { BasketItem } from '../types/Basket'
 import OrderSummary from '~/components/basket/OrderSummary.vue'
-import { XMarkIcon } from '@heroicons/vue/20/solid'
 
 const basketStore = useBasketStore()
-
 const basketItems = basketStore.items
-
-const price = (price: number) => `£${(price / 100).toFixed(2)}` ?? '£0.00'
-
-const removeFromBasket = (product: BasketItem) => {
-    basketStore.removeItemFromBasket(product)
-}
 
 const orderTotal = computed(() =>
     basketItems.reduce((acc, item) => {
