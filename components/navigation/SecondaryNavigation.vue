@@ -10,9 +10,17 @@ import { Collection } from '~/types/Collection'
 
 const basketStore = useBasketStore()
 
+const basketItems = basketStore.items
+
 const collections = await useFetchWithCache<Collection[]>(
     '/api/collections/get-all-collections'
 )
+
+const basketTotal = computed(() => {
+    return basketItems.reduce((acc, item) => {
+        return acc + item.count
+    }, 0)
+})
 </script>
 
 <template>
@@ -97,7 +105,7 @@ const collections = await useFetchWithCache<Collection[]>(
                                     />
                                     <span
                                         class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800"
-                                        >{{ basketStore.count }}</span
+                                        >{{ basketTotal }}</span
                                     >
                                     <span class="sr-only"
                                         >items in cart, view bag</span
