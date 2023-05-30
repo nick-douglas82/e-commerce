@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { price } from '~/helpers/utils'
 import { useBasketStore } from '~/store/basket'
+import { price } from '~/helpers/utils'
+import Spinner from '~/components/Spinner.vue'
 
 const { shipping, stage } = defineProps({
     shipping: {
@@ -10,6 +11,10 @@ const { shipping, stage } = defineProps({
     stage: {
         type: String as PropType<string>,
         default: 'basket',
+    },
+    isLoading: {
+        type: Boolean as PropType<boolean>,
+        default: false,
     },
 })
 
@@ -71,9 +76,11 @@ const isCheckout = computed(() => stage === 'checkout')
             </NuxtLink>
             <button
                 v-if="isCheckout"
-                class="block w-full px-4 py-3 text-base font-medium text-center text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                type="submit"
+                class="flex items-center justify-center w-full px-4 py-3 text-base font-medium text-center text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
             >
-                Continue to Payment
+                <Spinner v-if="isLoading" />
+                <template v-else>Continue to Payment</template>
             </button>
         </div>
     </section>

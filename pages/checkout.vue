@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Form, Field, ErrorMessage } from 'vee-validate'
 import {
     RadioGroup,
     RadioGroupDescription,
@@ -8,6 +9,7 @@ import {
 import { CheckCircleIcon } from '@heroicons/vue/20/solid'
 import { price } from '~/helpers/utils'
 import OrderSummary from '~/components/basket/OrderSummary.vue'
+import { checkoutSchema } from '~/validation/rules'
 
 type DeliveryMethods = {
     id: number
@@ -15,6 +17,8 @@ type DeliveryMethods = {
     turnaround: string
     price: number
 }
+
+const isLoading = ref(false)
 
 const deliveryMethods: Array<DeliveryMethods> = [
     {
@@ -32,6 +36,11 @@ const deliveryMethods: Array<DeliveryMethods> = [
 ]
 
 const selectedDeliveryMethod = ref(deliveryMethods[0])
+
+const onSubmit = (values: any) => {
+    console.log('submit', values)
+    isLoading.value = true
+}
 </script>
 
 <template>
@@ -44,10 +53,13 @@ const selectedDeliveryMethod = ref(deliveryMethods[0])
             >
                 Checkout
             </h1>
-            <div
+
+            <Form
+                @submit="onSubmit"
+                :validation-schema="checkoutSchema"
                 class="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16"
             >
-                <section class="lg:col-span-7">
+                <div class="lg:col-span-7">
                     <section aria-labelledby="contact-info-heading">
                         <h2
                             id="contact-info-heading"
@@ -58,17 +70,21 @@ const selectedDeliveryMethod = ref(deliveryMethods[0])
 
                         <div class="mt-6">
                             <label
-                                for="email-address"
+                                for="email"
                                 class="block text-sm font-medium text-gray-700"
                                 >Email address</label
                             >
                             <div class="mt-1">
-                                <input
+                                <Field
+                                    name="email"
                                     type="email"
-                                    id="email-address"
-                                    name="email-address"
+                                    id="email"
                                     autocomplete="email"
                                     class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                />
+                                <ErrorMessage
+                                    name="email"
+                                    class="text-sm font-semibold text-red-700"
                                 />
                             </div>
                         </div>
@@ -83,50 +99,62 @@ const selectedDeliveryMethod = ref(deliveryMethods[0])
                     >
                         <div>
                             <label
-                                for="first-name"
+                                for="firstname"
                                 class="block text-sm font-medium text-gray-700"
                                 >First name</label
                             >
                             <div class="mt-1">
-                                <input
+                                <Field
                                     type="text"
-                                    id="first-name"
-                                    name="first-name"
+                                    id="firstname"
+                                    name="firstname"
                                     autocomplete="given-name"
                                     class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                />
+                                <ErrorMessage
+                                    name="firstname"
+                                    class="text-sm font-semibold text-red-700"
                                 />
                             </div>
                         </div>
 
                         <div>
                             <label
-                                for="last-name"
+                                for="lastname"
                                 class="block text-sm font-medium text-gray-700"
                                 >Last name</label
                             >
                             <div class="mt-1">
-                                <input
+                                <Field
                                     type="text"
-                                    id="last-name"
-                                    name="last-name"
+                                    id="lastname"
+                                    name="lastname"
                                     autocomplete="family-name"
                                     class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                />
+                                <ErrorMessage
+                                    name="lastname"
+                                    class="text-sm font-semibold text-red-700"
                                 />
                             </div>
                         </div>
 
                         <div class="sm:col-span-2">
                             <label
-                                for="company"
+                                for="namenumber"
                                 class="block text-sm font-medium text-gray-700"
-                                >Company</label
+                                >House name or number</label
                             >
                             <div class="mt-1">
-                                <input
+                                <Field
                                     type="text"
-                                    name="company"
-                                    id="company"
+                                    name="namenumber"
+                                    id="namenumber"
                                     class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                />
+                                <ErrorMessage
+                                    name="namenumber"
+                                    class="text-sm font-semibold text-red-700"
                                 />
                             </div>
                         </div>
@@ -138,28 +166,16 @@ const selectedDeliveryMethod = ref(deliveryMethods[0])
                                 >Address</label
                             >
                             <div class="mt-1">
-                                <input
+                                <Field
                                     type="text"
                                     name="address"
                                     id="address"
                                     autocomplete="street-address"
                                     class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 />
-                            </div>
-                        </div>
-
-                        <div class="sm:col-span-2">
-                            <label
-                                for="apartment"
-                                class="block text-sm font-medium text-gray-700"
-                                >Apartment, suite, etc.</label
-                            >
-                            <div class="mt-1">
-                                <input
-                                    type="text"
-                                    name="apartment"
-                                    id="apartment"
-                                    class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                <ErrorMessage
+                                    name="address"
+                                    class="text-sm font-semibold text-red-700"
                                 />
                             </div>
                         </div>
@@ -171,12 +187,37 @@ const selectedDeliveryMethod = ref(deliveryMethods[0])
                                 >City</label
                             >
                             <div class="mt-1">
-                                <input
+                                <Field
                                     type="text"
                                     name="city"
                                     id="city"
                                     autocomplete="address-level2"
                                     class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                />
+                                <ErrorMessage
+                                    name="city"
+                                    class="text-sm font-semibold text-red-700"
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label
+                                for="county"
+                                class="block text-sm font-medium text-gray-700"
+                                >County</label
+                            >
+                            <div class="mt-1">
+                                <Field
+                                    type="text"
+                                    name="county"
+                                    id="county"
+                                    autocomplete="address-level1"
+                                    class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                />
+                                <ErrorMessage
+                                    name="county"
+                                    class="text-sm font-semibold text-red-700"
                                 />
                             </div>
                         </div>
@@ -188,47 +229,41 @@ const selectedDeliveryMethod = ref(deliveryMethods[0])
                                 >Country</label
                             >
                             <div class="mt-1">
-                                <select
+                                <Field
+                                    as="select"
                                     id="country"
                                     name="country"
                                     autocomplete="country-name"
                                     class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 >
-                                    <option>United Kingdom</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label
-                                for="region"
-                                class="block text-sm font-medium text-gray-700"
-                                >County</label
-                            >
-                            <div class="mt-1">
-                                <input
-                                    type="text"
-                                    name="region"
-                                    id="region"
-                                    autocomplete="address-level1"
-                                    class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    <option value="united kingdom">
+                                        United Kingdom
+                                    </option>
+                                </Field>
+                                <ErrorMessage
+                                    name="county"
+                                    class="text-sm font-semibold text-red-700"
                                 />
                             </div>
                         </div>
 
                         <div>
                             <label
-                                for="postal-code"
+                                for="postcode"
                                 class="block text-sm font-medium text-gray-700"
                                 >Postal code</label
                             >
                             <div class="mt-1">
-                                <input
+                                <Field
                                     type="text"
-                                    name="postal-code"
-                                    id="postal-code"
-                                    autocomplete="postal-code"
+                                    name="postcode"
+                                    id="postcode"
+                                    autocomplete="postcode"
                                     class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                />
+                                <ErrorMessage
+                                    name="postcode"
+                                    class="text-sm font-semibold text-red-700"
                                 />
                             </div>
                         </div>
@@ -240,12 +275,16 @@ const selectedDeliveryMethod = ref(deliveryMethods[0])
                                 >Phone</label
                             >
                             <div class="mt-1">
-                                <input
+                                <Field
                                     type="text"
                                     name="phone"
                                     id="phone"
-                                    autocomplete="tel"
+                                    autocomplete="phone"
                                     class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                />
+                                <ErrorMessage
+                                    name="phone"
+                                    class="text-sm font-semibold text-red-700"
                                 />
                             </div>
                         </div>
@@ -319,12 +358,14 @@ const selectedDeliveryMethod = ref(deliveryMethods[0])
                             </RadioGroupOption>
                         </div>
                     </RadioGroup>
-                </section>
+                </div>
+
                 <OrderSummary
                     :shipping="selectedDeliveryMethod.price"
                     stage="checkout"
+                    :is-loading="isLoading"
                 />
-            </div>
+            </Form>
         </div>
     </div>
 </template>
