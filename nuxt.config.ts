@@ -15,12 +15,12 @@ export default defineNuxtConfig({
         public: {
             stripePK: process.env.STRIPE_PK_KEY,
         },
-        app: {
-            head: {
-                script: [{ src: 'https://js.stripe.com/v3/', defer: true }],
-                charset: 'utf-8',
-                viewport: 'width=device-width, initial-scale=1',
-            },
+    },
+    app: {
+        head: {
+            script: [{ src: 'https://js.stripe.com/v3/', defer: true }],
+            charset: 'utf-8',
+            viewport: 'width=device-width, initial-scale=1',
         },
     },
     typescript: {

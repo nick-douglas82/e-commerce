@@ -18,6 +18,7 @@ const { shipping, stage } = defineProps({
     },
 })
 
+const user = useSupabaseUser()
 const basketStore = useBasketStore()
 const basketItems = basketStore.items
 
@@ -27,11 +28,15 @@ const basketTotal = computed(() =>
     }, 0)
 )
 
-const orderTotal = computed(() => basketTotal.value + shipping)
+const orderTotal = computed(() => basketTotal.value + basketStore.shippingCost)
 const subTotal = computed(() => basketTotal.value)
 
 const isBasket = computed(() => stage === 'basket')
 const isCheckout = computed(() => stage === 'checkout')
+
+watch(orderTotal, () => {
+    basketStore.setBasketTotal(Number(orderTotal))
+})
 </script>
 
 <template>
@@ -53,7 +58,7 @@ const isCheckout = computed(() => stage === 'checkout')
             <div v-if="shipping" class="flex items-center justify-between">
                 <dt class="text-sm text-gray-600">Delivery</dt>
                 <dd class="text-sm font-medium text-gray-900">
-                    {{ price(shipping) }}
+                    {{ price(basketStore.shippingCost) }}
                 </dd>
             </div>
             <div
@@ -69,10 +74,11 @@ const isCheckout = computed(() => stage === 'checkout')
         <div class="mt-6">
             <NuxtLink
                 v-if="isBasket"
-                to="/checkout"
+                :to="`${!user ? '/account/login' : '/checkout'}`"
                 class="block w-full px-4 py-3 text-base font-medium text-center text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
             >
-                Continue to Checkout
+                <template v-if="!user">Please Login to Continue</template>
+                <template v-else>Continue to Checkout</template>
             </NuxtLink>
             <button
                 v-if="isCheckout"

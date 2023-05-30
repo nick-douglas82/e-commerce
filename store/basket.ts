@@ -7,6 +7,7 @@ export const useBasketStore = defineStore('basket', {
         items: [] as BasketItem[],
         totalValue: 0,
         count: 0,
+        shippingCost: 0,
     }),
     actions: {
         addItemsToBasket(item: ProductWithCategories) {
@@ -48,6 +49,35 @@ export const useBasketStore = defineStore('basket', {
                 (acc, item) => acc + item.product.price * item.count,
                 0
             )
+        },
+        setShippingCost(cost: number) {
+            this.shippingCost = cost
+        },
+        setBasketTotal(total: number) {
+            this.totalValue = total
+        },
+        setBasketCount(count: number) {
+            this.count = count
+        },
+        updateProductQuantity(item: BasketItem) {
+            const itemInBasket = this.items.find(
+                (basketItem) => basketItem.product.id === item.product.id
+            )
+
+            if (itemInBasket) {
+                itemInBasket.count = item.count
+                this.totalUpBasket()
+                this.count = this.items.reduce(
+                    (acc, item) => acc + item.count,
+                    0
+                )
+            }
+        },
+        resetBasket() {
+            this.items = []
+            this.totalValue = 0
+            this.count = 0
+            this.shippingCost = 0
         },
     },
 })

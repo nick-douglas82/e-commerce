@@ -7,9 +7,11 @@ import {
     RadioGroupOption,
 } from '@headlessui/vue'
 import { CheckCircleIcon } from '@heroicons/vue/20/solid'
+import { useBasketStore } from '~/store/basket'
+import { useUserStore } from '~/store/user'
+import { checkoutSchema } from '~/validation/rules'
 import { price } from '~/helpers/utils'
 import OrderSummary from '~/components/basket/OrderSummary.vue'
-import { checkoutSchema } from '~/validation/rules'
 
 type DeliveryMethods = {
     id: number
@@ -18,7 +20,18 @@ type DeliveryMethods = {
     price: number
 }
 
+definePageMeta({
+    middleware: ['auth'],
+})
+
+const basketStore = useBasketStore()
+const userStore = useUserStore()
 const isLoading = ref(false)
+let stripe = null
+const clientSecret = ref(null)
+let card = null
+let elements = null
+const showModal = ref(false)
 
 const deliveryMethods: Array<DeliveryMethods> = [
     {
@@ -37,9 +50,21 @@ const deliveryMethods: Array<DeliveryMethods> = [
 
 const selectedDeliveryMethod = ref(deliveryMethods[0])
 
-const onSubmit = (values: any) => {
-    console.log('submit', values)
+watch(
+    () => selectedDeliveryMethod.value,
+    (selection) => {
+        basketStore.setShippingCost(selection.price)
+    },
+    { immediate: true }
+)
+
+const onSubmit = async (values: any) => {
     isLoading.value = true
+    userStore.shippingInfo = values
+
+    await navigateTo({
+        path: '/checkout/payment',
+    })
 }
 </script>
 
@@ -59,36 +84,34 @@ const onSubmit = (values: any) => {
                 :validation-schema="checkoutSchema"
                 class="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16"
             >
-                <div class="lg:col-span-7">
-                    <section aria-labelledby="contact-info-heading">
-                        <h2
-                            id="contact-info-heading"
-                            class="text-lg font-medium text-gray-900"
-                        >
-                            Contact information
-                        </h2>
+                <section class="lg:col-span-7">
+                    <h2
+                        id="contact-info-heading"
+                        class="text-lg font-medium text-gray-900"
+                    >
+                        Contact information
+                    </h2>
 
-                        <div class="mt-6">
-                            <label
-                                for="email"
-                                class="block text-sm font-medium text-gray-700"
-                                >Email address</label
-                            >
-                            <div class="mt-1">
-                                <Field
-                                    name="email"
-                                    type="email"
-                                    id="email"
-                                    autocomplete="email"
-                                    class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                />
-                                <ErrorMessage
-                                    name="email"
-                                    class="text-sm font-semibold text-red-700"
-                                />
-                            </div>
+                    <div class="mt-6">
+                        <label
+                            for="email"
+                            class="block text-sm font-medium text-gray-700"
+                            >Email address</label
+                        >
+                        <div class="mt-1">
+                            <Field
+                                name="email"
+                                type="email"
+                                id="email"
+                                autocomplete="email"
+                                class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            />
+                            <ErrorMessage
+                                name="email"
+                                class="text-sm font-semibold text-red-700"
+                            />
                         </div>
-                    </section>
+                    </div>
 
                     <h2 class="mt-10 text-lg font-medium text-gray-900">
                         Shipping information
@@ -358,7 +381,7 @@ const onSubmit = (values: any) => {
                             </RadioGroupOption>
                         </div>
                     </RadioGroup>
-                </div>
+                </section>
 
                 <OrderSummary
                     :shipping="selectedDeliveryMethod.price"
