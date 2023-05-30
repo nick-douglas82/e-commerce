@@ -9,6 +9,7 @@ export default defineNuxtConfig({
         '@pinia-plugin-persistedstate/nuxt',
         '@nuxtjs/tailwindcss',
         '@nuxtjs/supabase',
+        '@vee-validate/nuxt',
     ],
     runtimeConfig: {
         public: {
