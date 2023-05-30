@@ -4,14 +4,6 @@ import OrderSummary from '~/components/basket/OrderSummary.vue'
 
 const basketStore = useBasketStore()
 const basketItems = basketStore.items
-
-const orderTotal = computed(() =>
-    basketItems.reduce((acc, item) => {
-        return acc + item.product.price * item.count
-    }, 0)
-)
-
-const subTotal = computed(() => orderTotal.value * (1 - 20 / 100))
 </script>
 
 <template>
@@ -33,7 +25,7 @@ const subTotal = computed(() => orderTotal.value * (1 - 20 / 100))
                     </h2>
                     <BasketList :basket-items="basketItems" />
                 </section>
-                <OrderSummary :sub-total="subTotal" :order-total="orderTotal" />
+                <OrderSummary />
             </div>
         </div>
     </div>

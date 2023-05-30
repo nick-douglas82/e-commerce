@@ -1,16 +1,32 @@
 <script setup lang="ts">
 import { price } from '~/helpers/utils'
+import { useBasketStore } from '~/store/basket'
 
-const { subTotal, orderTotal } = defineProps({
-    subTotal: {
+const { shipping, stage } = defineProps({
+    shipping: {
         type: Number as PropType<number>,
-        required: true,
+        default: 0,
     },
-    orderTotal: {
-        type: Number as PropType<number>,
-        required: true,
+    stage: {
+        type: String as PropType<string>,
+        default: 'basket',
     },
 })
+
+const basketStore = useBasketStore()
+const basketItems = basketStore.items
+
+const basketTotal = computed(() =>
+    basketItems.reduce((acc, item) => {
+        return acc + item.product.price * item.count
+    }, 0)
+)
+
+const orderTotal = computed(() => basketTotal.value + shipping)
+const subTotal = computed(() => basketTotal.value)
+
+const isBasket = computed(() => stage === 'basket')
+const isCheckout = computed(() => stage === 'checkout')
 </script>
 
 <template>
@@ -29,6 +45,12 @@ const { subTotal, orderTotal } = defineProps({
                     {{ price(subTotal) }}
                 </dd>
             </div>
+            <div v-if="shipping" class="flex items-center justify-between">
+                <dt class="text-sm text-gray-600">Delivery</dt>
+                <dd class="text-sm font-medium text-gray-900">
+                    {{ price(shipping) }}
+                </dd>
+            </div>
             <div
                 class="flex items-center justify-between pt-4 border-t border-gray-200"
             >
@@ -40,11 +62,18 @@ const { subTotal, orderTotal } = defineProps({
         </dl>
 
         <div class="mt-6">
-            <button
-                type="submit"
-                class="w-full px-4 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+            <NuxtLink
+                v-if="isBasket"
+                to="/checkout"
+                class="block w-full px-4 py-3 text-base font-medium text-center text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
             >
-                Checkout
+                Continue to Checkout
+            </NuxtLink>
+            <button
+                v-if="isCheckout"
+                class="block w-full px-4 py-3 text-base font-medium text-center text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+            >
+                Continue to Payment
             </button>
         </div>
     </section>
