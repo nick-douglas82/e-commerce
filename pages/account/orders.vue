@@ -113,7 +113,12 @@ const { data: orders } = await useFetch(
                                         <p
                                             class="mt-1 font-medium text-gray-900"
                                         >
-                                            {{ price(orderItem.product.price) }}
+                                            {{
+                                                price(
+                                                    orderItem.product.price *
+                                                        orderItem.quantity
+                                                )
+                                            }}
                                         </p>
                                     </div>
                                 </div>
