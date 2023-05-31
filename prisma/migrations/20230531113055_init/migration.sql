@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "category" (
-    "id" SERIAL NOT NULL,
+    "id" INTEGER NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT,
     "slug" TEXT NOT NULL,

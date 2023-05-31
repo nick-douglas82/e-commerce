@@ -80,4 +80,5 @@ export const useBasketStore = defineStore('basket', {
             this.shippingCost = 0
         },
     },
+    persist: true,
 })

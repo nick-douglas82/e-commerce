@@ -28,7 +28,11 @@ const basketTotal = computed(() =>
     }, 0)
 )
 
-const orderTotal = computed(() => basketTotal.value + basketStore.shippingCost)
+const orderTotal = computed(() =>
+    isCheckout.value
+        ? basketTotal.value + basketStore.shippingCost
+        : basketTotal.value
+)
 const subTotal = computed(() => basketTotal.value)
 
 const isBasket = computed(() => stage === 'basket')

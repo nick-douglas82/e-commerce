@@ -19,14 +19,14 @@ const collections = await useFetchWithCache<Collection[]>(
                 <div class="flex items-center justify-between h-16">
                     <!-- Logo (lg+) -->
                     <div class="hidden lg:flex lg:items-center">
-                        <a href="#">
+                        <NuxtLink to="/">
                             <span class="sr-only">Your Company</span>
                             <img
                                 class="w-auto h-8"
                                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                                 alt=""
                             />
-                        </a>
+                        </NuxtLink>
                     </div>
 
                     <div class="hidden h-full lg:flex">

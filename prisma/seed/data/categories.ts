@@ -1,5 +1,6 @@
 module.exports = [
     {
+        id: 1,
         name: 'Bins & Accessories',
         description:
             'lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -7,6 +8,7 @@ module.exports = [
         img: 'https://picsum.photos/id/15/800/800',
     },
     {
+        id: 2,
         name: 'Laundry',
         description:
             'lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -14,6 +16,7 @@ module.exports = [
         img: 'https://picsum.photos/id/11/800/800',
     },
     {
+        id: 3,
         name: 'Kitchen & Cooking',
         description:
             'lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
