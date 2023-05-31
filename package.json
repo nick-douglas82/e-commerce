@@ -41,6 +41,7 @@
         "@vee-validate/nuxt": "^4.9.5",
         "@vee-validate/yup": "^4.9.5",
         "@vueuse/core": "^10.1.2",
+        "dayjs": "^1.11.7",
         "nuxt-lodash": "^2.4.1",
         "path": "^0.12.7",
         "pinia": "^2.1.3",

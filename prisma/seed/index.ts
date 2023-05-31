@@ -6,9 +6,9 @@ const Products = require('./data/products')
 
 async function runSeeders() {
     await Promise.all(
-        Categories.map(async (cotegory: any) =>
+        Categories.map(async (category: any) =>
             prisma.category.create({
-                data: cotegory,
+                data: category,
             })
         )
     )
