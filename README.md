@@ -1,4 +1,4 @@
-# Nuxt 3, Tailwind, Vercel E-Commerce
+# Nuxt 3, Tailwind, Supabase, Vercel E-Commerce
 
 [Preview link](https://ecommerce.nick-douglas.co.uk/)
 
