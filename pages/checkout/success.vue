@@ -11,7 +11,7 @@
             >
                 Thanks for ordering
             </p>
-            <p class="mt-2 text-base text-gray-500">
+            <p class="mt-6 text-base text-gray-500">
                 We appreciate your order, we’re currently processing it. So hang
                 tight and we’ll send you confirmation very soon!
             </p>

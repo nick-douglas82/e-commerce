@@ -12,8 +12,10 @@ const loginWith = async (provider: any) => {
     const { data, error } = await client.auth.signInWithOAuth({
         provider: provider,
         // @ts-ignore
-        redirectTo: `${window.location.origin}/account`,
+        // redirectTo: `${window.location.origin}/account`,
     })
+
+    console.log(data)
 }
 </script>
 <template>
