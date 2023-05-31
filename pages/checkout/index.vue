@@ -12,6 +12,7 @@ import { useUserStore } from '~/store/user'
 import { checkoutSchema } from '~/validation/rules'
 import { price } from '~/helpers/utils'
 import OrderSummary from '~/components/basket/OrderSummary.vue'
+import { ShippingInfo } from '~/types/Shipping'
 
 type DeliveryMethods = {
     id: number
@@ -27,11 +28,6 @@ definePageMeta({
 const basketStore = useBasketStore()
 const userStore = useUserStore()
 const isLoading = ref(false)
-let stripe = null
-const clientSecret = ref(null)
-let card = null
-let elements = null
-const showModal = ref(false)
 
 const deliveryMethods: Array<DeliveryMethods> = [
     {
@@ -59,8 +55,9 @@ watch(
 )
 
 const onSubmit = async (values: any) => {
+    const shippingInfo: ShippingInfo = values
     isLoading.value = true
-    userStore.shippingInfo = values
+    userStore.shippingInfo = shippingInfo
 
     await navigateTo({
         path: '/checkout/payment',

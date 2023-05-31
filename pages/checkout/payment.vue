@@ -1,15 +1,7 @@
 <script setup lang="ts">
-import { Form, Field, ErrorMessage } from 'vee-validate'
-import {
-    RadioGroup,
-    RadioGroupDescription,
-    RadioGroupLabel,
-    RadioGroupOption,
-} from '@headlessui/vue'
-import { CheckCircleIcon } from '@heroicons/vue/20/solid'
+import { Form } from 'vee-validate'
 import { useBasketStore } from '~/store/basket'
-import { checkoutSchema } from '~/validation/rules'
-import { price } from '~/helpers/utils'
+import { useUserStore } from '~/store/user'
 import OrderSummary from '~/components/basket/OrderSummary.vue'
 import Spinner from '~/components/Spinner.vue'
 
@@ -24,13 +16,14 @@ definePageMeta({
     middleware: ['auth'],
 })
 
+const userStore = useUserStore()
+const user = useSupabaseUser()
 const basketStore = useBasketStore()
 const isLoading = ref(false)
 let stripe = null as any
 const clientSecret = ref(null)
 let card = null as any
 let elements = null
-const showModal = ref(false)
 
 const stripeInit = async () => {
     const runtimeConfig = useRuntimeConfig()
@@ -96,7 +89,7 @@ const pay = async () => {
         showError(result.error.message)
         isLoading.value = false
     } else {
-        // await createOrder(result.paymentIntent.id)
+        await createOrder(result.paymentIntent.id)
         basketStore.items = []
         basketStore.shippingCost = 0
         basketStore.totalValue = 0
@@ -106,6 +99,23 @@ const pay = async () => {
             return navigateTo('/checkout/success')
         }, 500)
     }
+}
+
+const createOrder = async (stripeId: string) => {
+    await useFetch('/api/orders/create', {
+        method: 'POST',
+        body: {
+            userId: user?.value?.id,
+            stripeId: stripeId,
+            name: `${userStore.shippingInfo.firstname} ${userStore.shippingInfo.lastname}`,
+            address: userStore.shippingInfo.address,
+            postcode: userStore.shippingInfo.postcode,
+            city: userStore.shippingInfo.city,
+            county: userStore.shippingInfo.county,
+            country: userStore.shippingInfo.country,
+            products: basketStore.items,
+        },
+    })
 }
 
 const showError = (errorMsgText: string) => {
