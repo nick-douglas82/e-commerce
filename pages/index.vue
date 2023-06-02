@@ -14,7 +14,7 @@ const collections = await useFetchWithCache<Collection[]>(
             <!-- Decorative image and overlay -->
             <div aria-hidden="true" class="absolute inset-0 overflow-hidden">
                 <img
-                    src="https://tailwindui.com/img/ecommerce-images/home-page-01-hero-full-width.jpg"
+                    src="/images/edgar-castrejon-CX8ooha2yLA-unsplash-min.jpg"
                     alt=""
                     class="object-cover object-center w-full h-full"
                 />
@@ -102,7 +102,7 @@ const collections = await useFetchWithCache<Collection[]>(
                 <div class="relative overflow-hidden rounded-lg">
                     <div class="absolute inset-0">
                         <img
-                            src="https://tailwindui.com/img/ecommerce-images/home-page-01-feature-section-02.jpg"
+                            src="/images/sidekix-media--iQYdCr4EpE-unsplash-min.jpg"
                             alt=""
                             class="object-cover object-center w-full h-full"
                         />
