@@ -30,18 +30,19 @@ const collections = await useFetchWithCache<Collection[]>(
                 <h1
                     class="text-4xl font-bold tracking-tight text-white lg:text-6xl"
                 >
-                    New arrivals are here
+                    An e-commerce demo site
                 </h1>
                 <p class="mt-4 text-xl text-white">
-                    The new arrivals have, well, newly arrived. Check out the
-                    latest options from our summer small-batch release while
-                    they're still in stock.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Aspernatur vel, modi, ducimus ut a accusamus id quis magnam
+                    maxime natus earum suscipit obcaecati nisi aperiam. Cumque
+                    accusamus quasi molestias incidunt?
                 </p>
-                <a
-                    href="#"
+                <NuxtLink
+                    to="#"
                     class="inline-block px-8 py-3 mt-8 text-base font-medium text-gray-900 bg-white border border-transparent rounded-md hover:bg-gray-100"
-                    >Shop New Arrivals</a
-                >
+                    >Shop New Arrivals
+                </NuxtLink>
             </div>
         </div>
 
