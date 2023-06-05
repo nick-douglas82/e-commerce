@@ -13,7 +13,7 @@ CREATE TABLE "category" (
 
 -- CreateTable
 CREATE TABLE "products" (
-    "id" SERIAL NOT NULL,
+    "id" INTEGER NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT,
     "notes" TEXT,
